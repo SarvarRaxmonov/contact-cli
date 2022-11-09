@@ -15,8 +15,9 @@ class Server:
     malumotlar qushish va ular ni uchirish , o'zgartirish uchun
 
     """
-  # USER CHECKING SECURITY ////////////////////////////////////////////////////////////////
-  
+
+    # USER CHECKING SECURITY ////////////////////////////////////////////////////////////////
+
     def is_user_exists(self, username=None):
         assert (
             type(username) is str and len(username) > 0 and username != None
@@ -27,28 +28,26 @@ class Server:
         if c.fetchone()[0] == 1:
             return True
         return False
-  
-    def is_user_contact_id_exists(self,user,contc_id=None):
+
+    def is_user_contact_id_exists(self, user, contc_id=None):
         assert (
-            len(user) and len(str(contc_id)) > 0 and isinstance(contc_id,int)
+            len(user) and len(str(contc_id)) > 0 and isinstance(contc_id, int)
         ), "IS USER CONTACT ID EXISTS | SYSTEM ERROR"
-        c.execute(
-            f"SELECT EXISTS(SELECT id FROM {user} WHERE id='{contc_id}' LIMIT 1)"
-        )
+        c.execute(f"SELECT EXISTS(SELECT id FROM {user} WHERE id='{contc_id}' LIMIT 1)")
         if c.fetchone()[0] == 1:
             return True
         return False
-  
-  # END OF USER CHECKING SECURITY ////////////////////////////////////////////////////////////////
-  
-  # START OF THE USER ACTIONS    \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-           
+
+    # END OF USER CHECKING SECURITY ////////////////////////////////////////////////////////////////
+
+    # START OF THE USER ACTIONS    \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
     def user_all_contacts(self, user):
-    
+
         c.execute(f"SELECT id, name, phone_number FROM {user}")
         record = c.fetchall()
-        return record 
-         
+        return record
+
     def new_user_create(user_name):
 
         assert type(user_name) is str and len(user_name) > 0, "System error"
@@ -91,22 +90,21 @@ class Server:
                 (new_phone_number, contact_id),
             )
         else:
-            print(Fore.RED+"   Siz hech qaysi malumotni o'zgartirmadingiz !!!")
+            print(Fore.RED + "   Siz hech qaysi malumotni o'zgartirmadingiz !!!")
         conn.commit()
         print(f"   {contact_id} user data credentials updated ")
 
-    def deleting_contacts_of_user(self,user, contact_id: int):
-        
+    def deleting_contacts_of_user(self, user, contact_id: int):
+
         c.execute(f"""DELETE FROM '{user}' WHERE id LIKE {contact_id}""")
         conn.commit()
         return print(Fore.CYAN + f"  [ID : {contact_id}] user all data deleted * * * ")
 
-    def searching_name_in_user_contacts(self,user,name):
+    def searching_name_in_user_contacts(self, user, name):
         c.execute(f"SELECT * FROM {user} WHERE name LIKE '{str(name)}%'")
-        result = c.fetchall() 
-            
-        return result
+        result = c.fetchall()
 
+        return result
 
 
 if __name__ == "__main__":
