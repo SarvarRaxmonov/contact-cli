@@ -30,8 +30,8 @@ class Server:
   
     def is_user_contact_id_exists(self,user,contc_id=None):
         assert (
-            len(user) and len(str(contc_id)) > 0 and isinstance(contc_id,int),"IS USER CONTACT ID EXISTS | SYSTEM ERROR"
-        )
+            len(user) and len(str(contc_id)) > 0 and isinstance(contc_id,int)
+        ), "IS USER CONTACT ID EXISTS | SYSTEM ERROR"
         c.execute(
             f"SELECT EXISTS(SELECT id FROM {user} WHERE id='{contc_id}' LIMIT 1)"
         )
@@ -97,13 +97,14 @@ class Server:
 
     def deleting_contacts_of_user(self,user, contact_id: int):
         
-        c.execute(f"""DELETE from '{user}' WHERE id LIKE {contact_id}""")
+        c.execute(f"""DELETE FROM '{user}' WHERE id LIKE {contact_id}""")
         conn.commit()
         return print(Fore.CYAN + f"  [ID : {contact_id}] user all data deleted * * * ")
 
     def searching_name_in_user_contacts(self,user,name):
-        c.execute(f"""SELECT from '{user}' WHERE name LIKE '{name}' """)
-        result = c.fetchall()        
+        c.execute(f"SELECT * FROM {user} WHERE name LIKE '{str(name)}%'")
+        result = c.fetchall() 
+            
         return result
 
 

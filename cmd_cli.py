@@ -62,7 +62,11 @@ class cmd_contact_book:
                 return self.update_contact()
             if click == "delete contact":
                 return self.delete_contact()
- 
+            if click == "search contact":
+                cd = print_all_contact(user=self.USER)
+                return self.search_contact() 
+                   
+  
     def add_contact(self):
         click_name = input(Fore.LIGHTWHITE_EX + "\n Name : ")
         click_phone = input(Fore.LIGHTWHITE_EX + "\n Phone number : ")
@@ -103,12 +107,12 @@ class cmd_contact_book:
             return self.all_actions_menu()
     
     def search_contact(self):
+       
         click_searching_name = input(Fore.BLUE + "\n  Contact name ? : "or" ")
         print_searched_contacts(user=self.USER,name=click_searching_name)
-        
-        if click_searching_name == '<':
+        if click_searching_name == "<":
             return self.all_actions_menu()
-        
+        self.search_contact()
 
 if __name__ == "__main__":
 
